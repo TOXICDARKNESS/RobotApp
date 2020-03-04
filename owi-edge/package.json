@@ -1,0 +1,120 @@
+{
+  "_from": "owi-edge",
+  "_id": "owi-edge@0.0.4",
+  "_inBundle": false,
+  "_integrity": "sha512-LbjZZOVMlCaRYLDwgglTBw3roKld3IbcwBqMX6lnEQB50P2mC2EXMGIwZGxBZNRU+jS7qT+5H04/4vgf4GXC3Q==",
+  "_location": "/owi-edge",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "owi-edge",
+    "name": "owi-edge",
+    "escapedName": "owi-edge",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/owi-edge/-/owi-edge-0.0.4.tgz",
+  "_shasum": "916aaf4a1e6d51e5b2300f76b9d486980dd7f177",
+  "_spec": "owi-edge",
+  "_where": "C:\\Users\\danie",
+  "author": {
+    "name": "Lex Lacson"
+  },
+  "bugs": {
+    "url": "https://github.com/lexlacson/owi-edge/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "fs-extra": "^8.1.0",
+    "usb": "^1.2.0"
+  },
+  "deprecated": false,
+  "description": "Rule the world with this OWI-535 Edge robot arm usb driver",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.32",
+    "@babel/preset-env": "^7.0.0-beta.32",
+    "@babel/register": "^7.0.0-beta.32",
+    "babel-loader": "8.0.0-beta.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "husky": "^0.14.3",
+    "mocha": "^4.0.1",
+    "mockery": "^2.1.0",
+    "nyc": "^15.0.0",
+    "sinon": "^4.1.2",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=8.9.0",
+    "npm": ">=5"
+  },
+  "homepage": "https://github.com/lexlacson/owi-edge#readme",
+  "jsnext:main": "src/index.js",
+  "keywords": [
+    "OWI",
+    "OWI-535",
+    "edge",
+    "robot",
+    "arm",
+    "usb",
+    "driver"
+  ],
+  "license": "MIT",
+  "main": "lib/owi-edge.js",
+  "module": "src/index.js",
+  "name": "owi-edge",
+  "nyc": {
+    "check-coverage": true,
+    "per-file": true,
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "test/**/*.spec.js"
+    ],
+    "reporter": [
+      "lcov",
+      "html",
+      "text"
+    ]
+  },
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lexlacson/owi-edge.git"
+  },
+  "scripts": {
+    "build": "webpack",
+    "clean": "rm -rf ./lib",
+    "clean:all": "npm run clean && npm run clean:node",
+    "clean:node": "rm -rf node_modules",
+    "dance": "node examples/robot-dance",
+    "testmove": "node examples/test",
+    "precommit": "npm run test:lint",
+    "prepublishOnly": "npm run clean:all && npm install && npm test && npm run build",
+    "prepush": "npm test",
+    "test": "npm run build && npm run test:lint && npm run test:mocha",
+    "test:ci": "npm test && npm run test:report-coverage",
+    "test:lint": "eslint . --ext .js --ignore-path .gitignore",
+    "test:mocha": "nyc mocha --require @babel/register",
+    "test:report-coverage": "nyc report --reporter=text-lcov | coveralls",
+    "watch": "webpack --watch"
+  },
+  "version": "0.0.4"
+}
