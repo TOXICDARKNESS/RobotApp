@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -16,6 +17,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 import org.opencv.objdetect.CascadeClassifier;
+import robotcontrol.PositionClass.*;
 
 
 /**
@@ -24,7 +26,8 @@ import org.opencv.objdetect.CascadeClassifier;
  */
 public class FaceDetection extends javax.swing.JFrame {
 ///
-        
+        public PositionClass current;
+        public ArrayList<PositionClass> recArray = new ArrayList<>();
         private DaemonThread myThread = null;
         int count = 0;
         VideoCapture webSource = null;
@@ -43,19 +46,44 @@ public class FaceDetection extends javax.swing.JFrame {
 
         @Override
         public void run() {
-            
+            int count = 0;
             synchronized (this) {
                 while (runnable) {
                     if (webSource.grab()) {
                         try {
-                            webSource.retrieve(frame);
                             
+                            webSource.retrieve(frame);
+                            Rect rectLast;
                             Graphics g = jPanel1.getGraphics();
                             faceDetector.detectMultiScale(frame, faceDetections);
+                            Rect[] rectCurrent = faceDetections.toArray();
                             for (Rect rect : faceDetections.toArray()) {
                                // System.out.println("ttt");
                                 Imgproc.rectangle(frame, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255,0));
-                                System.out.println(rect.x + " " + rect.y);
+                                current = new PositionClass(rect.x, rect.y);
+                                count = count + 1;
+                                if (count == 1) {
+                                    recArray.add(current);
+                                }
+                                
+                                for (int i = 0; i < recArray.size(); i++) {
+                                    if (recArray.get(i).getPosx() - 20 < current.posx | current.posx < recArray.get(i).getPosx() + 20) {
+                                        
+                                        System.out.println("x: " + current.posx + " y:" + current.posy);
+                                        
+                                    } else {
+                                        recArray.remove(i);
+                                        recArray.add(current);
+                                        
+                                    }
+                                    System.out.println(recArray.size() + " " + recArray.get(i).getPosx());
+                                    
+                                }
+                                
+                                
+                                    
+                                
+                                 
                                 
                             }
                             Imgcodecs.imencode(".bmp", frame, mem);

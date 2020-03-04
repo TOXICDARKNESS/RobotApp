@@ -5,7 +5,6 @@
  */
 package robotcontrol;
 
-import java.lang.reflect.Field;
 import javax.swing.JFrame;
 
 /**
@@ -21,13 +20,9 @@ public class ControlMaster {
         
             
         System.loadLibrary("opencv_java420");
-        JFrame x = new JFrame();
+       
         FaceDetection y = new FaceDetection();
-        x.setSize(500, 500);
-        
-        
-        
-        x.setVisible(true);
+       
         y.setVisible(true);
         
         
